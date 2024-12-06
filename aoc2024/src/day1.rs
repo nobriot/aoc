@@ -1,20 +1,15 @@
 use regex::Regex;
-use std::fs;
 
 const NUMBERS_REGEX: &str = r#"(?<left>\d+) +(?<right>\d+)"#;
 
-pub fn solve(input_file: &str) {
-    // Parse the file
-    let contents = fs::read_to_string(input_file).expect("Unable to read the file");
-    // println!("{}", contents);
-
+pub fn solve(input: &str) {
     let numbers_re = Regex::new(NUMBERS_REGEX).unwrap();
 
     let mut left_numbers: Vec<isize> = Vec::new();
     let mut right_numbers: Vec<isize> = Vec::new();
 
     // This is an ugly way to extract numbers:
-    let captures = numbers_re.captures_iter(&contents);
+    let captures = numbers_re.captures_iter(&input);
 
     for value in captures {
         let left = value.name("left");

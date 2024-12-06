@@ -1,14 +1,10 @@
-use std::fs;
 use std::str::Split;
 
-pub fn solve(input_file: &str) {
-    // Parse the file
-    let contents = fs::read_to_string(input_file).expect("Unable to read the file");
-
+pub fn solve(input: &str) {
     // Problem 1
     let mut safe_count: usize = 0;
 
-    for line in contents.lines() {
+    for line in input.lines() {
         let numbers = line.trim().split(" ");
         if line_is_safe(&numbers, None) {
             safe_count += 1;
@@ -22,7 +18,7 @@ pub fn solve(input_file: &str) {
     // get the line to be safe
     let mut corrected_safe_count: usize = 0;
 
-    'lines: for line in contents.lines() {
+    'lines: for line in input.lines() {
         let numbers = line.trim().split(" ");
         if line_is_safe(&numbers, None) {
             // println!("Line is safe {line}");

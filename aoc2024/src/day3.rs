@@ -1,5 +1,4 @@
 use regex::Regex;
-use std::fs;
 
 const MUL_REGEX: &str = r#"mul\((?<X>\d{1,3}),(?<Y>\d+{1,3})\)"#;
 
@@ -8,14 +7,11 @@ enum Enablement {
     Dont,
 }
 
-pub fn solve(input_file: &str) {
-    // Parse the file
-    let contents = fs::read_to_string(input_file).expect("Unable to read the file");
-
-    let part_1_total = compute_multiplications(&contents);
+pub fn solve(input: &str) {
+    let part_1_total = compute_multiplications(&input);
     println!("Part 1 Result: {part_1_total}");
 
-    let part_2_total: usize = compute_enabled_multiplications(&contents);
+    let part_2_total: usize = compute_enabled_multiplications(&input);
     println!("Part 2 Result: {part_2_total}");
 }
 
@@ -27,7 +23,7 @@ fn compute_enabled_multiplications(input: &str) -> usize {
     let mut stop: usize = input.len();
 
     // println!("Total length {stop}");
-    // println!("Test stlice {}", &input[4..10]);
+    // println!("Test slice {}", &input[4..10]);
     while start < input.len() {
         // println!("Iteration with {start}");
         match e {
