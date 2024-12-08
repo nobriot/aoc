@@ -1,36 +1,31 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 pub fn solve(input: &str) {
     let grid = Grid::from_str(input);
-    let part_1_total = solve_part_1(grid);
+    let part_1_total = solve_part_1(&grid);
     println!("Part 1 Result: {part_1_total}");
 
-    let grid = Grid::from_str(input);
-    let part_2_total = solve_part_2(grid);
+    let part_2_total = solve_part_2(&grid);
     println!("Part 2 Result: {part_2_total}");
 }
 
-fn solve_part_1(grid: Grid) -> usize {
+fn solve_part_1(grid: &Grid) -> usize {
     grid.calculate_antinodes()
 }
 
-fn solve_part_2(grid: Grid) -> usize {
+fn solve_part_2(grid: &Grid) -> usize {
     grid.calculate_extended_antinodes()
 }
 
 #[derive(Debug)]
 struct Grid {
     data: Vec<Vec<char>>,
-    lines: usize,
-    cols: usize,
 }
 
 impl Grid {
     fn from_str(input: &str) -> Self {
-        let data = input.lines().map(|l| l.chars().collect()).collect();
-        let lines = data.len();
-        let cols = data[0].len();
-        Self { data, lines, cols }
+        let data: Vec<Vec<char>> = input.lines().map(|l| l.chars().collect()).collect();
+        Self { data }
     }
 
     fn at(&self, line: isize, pos: isize) -> Option<char> {
@@ -42,16 +37,7 @@ impl Grid {
         self.data.get(line)?.get(pos).copied()
     }
 
-    fn set(&mut self, line: usize, pos: usize, c: char) {
-        if self.at(line as isize, pos as isize).is_some() {
-            self.data.get_mut(line).unwrap()[pos] = c;
-        } else {
-            eprintln!("Got out of bound set {} {}", line, pos);
-        }
-    }
-
-    /// Consumes the object at it erase all nodes
-    fn calculate_antinodes(self) -> usize {
+    fn calculate_antinodes(&self) -> usize {
         let mut antinodes: HashSet<(isize, isize)> = HashSet::new();
         let mut current = (0, 0);
         for (l, line) in self.data.iter().enumerate() {
@@ -65,22 +51,19 @@ impl Grid {
                 if *ch == '.' {
                     continue;
                 }
-                println!("l: {}, p : {}, current: {:?} - char {}", l, p, current, *ch);
+                // println!("l: {}, p : {}, current: {:?} - char {}", l, p, current, *ch);
 
                 // Find all identical nodes
                 let others = self.get_char_positions(*ch, l, p + 1);
 
-                println!("counterparts: {}", others.len());
+                // println!("counterparts: {}", others.len());
                 for other in others {
-                    let positions = Grid::get_antinode_positions((l, p), other);
-                    assert!(positions.len() == 2);
-                    println!("{}, Antinode positions: {:?}", antinodes.len(), positions);
+                    let positions = self.get_antinode_positions((l, p), other);
+                    // println!("{}, Antinode positions: {:?}", antinodes.len(), positions);
                     for position in positions {
-                        if self.at(position.0, position.1).is_some() {
-                            antinodes.insert((position.0, position.1));
-                        }
+                        antinodes.insert((position.0, position.1));
                     }
-                    println!("Updated total:{}", antinodes.len());
+                    // println!("Updated total:{}", antinodes.len());
                 }
 
                 // Mark progress
@@ -91,7 +74,7 @@ impl Grid {
     }
 
     /// Consumes the object at it erase all nodes
-    fn calculate_extended_antinodes(self) -> usize {
+    fn calculate_extended_antinodes(&self) -> usize {
         let mut antinodes: HashSet<(isize, isize)> = HashSet::new();
         let mut current = (0, 0);
         for (l, line) in self.data.iter().enumerate() {
@@ -105,21 +88,19 @@ impl Grid {
                 if *ch == '.' {
                     continue;
                 }
-                println!("l: {}, p : {}, current: {:?} - char {}", l, p, current, *ch);
+                // println!("l: {}, p : {}, current: {:?} - char {}", l, p, current, *ch);
 
                 // Find all identical nodes
                 let others = self.get_char_positions(*ch, l, p + 1);
 
-                println!("counterparts: {}", others.len());
+                // println!("counterparts: {}", others.len());
                 for other in others {
-                    let positions = Grid::get_extended_antinode_positions((l, p), other);
-                    println!("{}, Antinode positions: {:?}", antinodes.len(), positions);
+                    let positions = self.get_extended_antinode_positions((l, p), other);
+                    // println!("{}, Antinode positions: {:?}", antinodes.len(), positions);
                     for position in positions {
-                        if self.at(position.0, position.1).is_some() {
-                            antinodes.insert((position.0, position.1));
-                        }
+                        antinodes.insert((position.0, position.1));
                     }
-                    println!("Updated total:{}", antinodes.len());
+                    // println!("Updated total:{}", antinodes.len());
                 }
 
                 // Mark progress
@@ -128,38 +109,28 @@ impl Grid {
         }
         antinodes.len()
     }
-    fn get_antinode_positions(a: (usize, usize), b: (usize, usize)) -> Vec<(isize, isize)> {
+    fn get_antinode_positions(&self, a: (usize, usize), b: (usize, usize)) -> Vec<(isize, isize)> {
         let mut positions = Vec::new();
 
         let a_i = (a.0 as isize, a.1 as isize);
         let b_i = (b.0 as isize, b.1 as isize);
 
         let delta = (a_i.0 - b_i.0, a_i.1 - b_i.1);
-
-        let p1 = (a_i.0 - delta.0, a_i.1 - delta.1);
-        let p2 = (a_i.0 + delta.0, a_i.1 + delta.1);
-        let p3 = (b_i.0 - delta.0, b_i.1 - delta.1);
-        let p4 = (b_i.0 + delta.0, b_i.1 + delta.1);
-
-        if p1 != a_i && p1 != b_i {
-            positions.push(p1);
+        let p = (a_i.0 + delta.0, a_i.1 + delta.1);
+        if self.at(p.0, p.1).is_some() {
+            positions.push(p);
         }
 
-        if p2 != a_i && p2 != b_i {
-            positions.push(p2);
-        }
-
-        if p3 != a_i && p3 != b_i {
-            positions.push(p3);
-        }
-
-        if p4 != a_i && p4 != b_i {
-            positions.push(p4);
+        let delta = (b_i.0 - a_i.0, b_i.1 - a_i.1);
+        let p = (b_i.0 + delta.0, b_i.1 + delta.1);
+        if self.at(p.0, p.1).is_some() {
+            positions.push(p);
         }
         positions
     }
 
     fn get_extended_antinode_positions(
+        &self,
         a: (usize, usize),
         b: (usize, usize),
     ) -> Vec<(isize, isize)> {
@@ -169,26 +140,27 @@ impl Grid {
         let b_i = (b.0 as isize, b.1 as isize);
 
         let delta = (a_i.0 - b_i.0, a_i.1 - b_i.1);
-
-        let p1 = (a_i.0 - delta.0, a_i.1 - delta.1);
-        let p2 = (a_i.0 + delta.0, a_i.1 + delta.1);
-        let p3 = (b_i.0 - delta.0, b_i.1 - delta.1);
-        let p4 = (b_i.0 + delta.0, b_i.1 + delta.1);
-
-        if p1 != a_i && p1 != b_i {
-            positions.push(p1);
+        let mut i = 0;
+        loop {
+            let p = (a_i.0 + i * delta.0, a_i.1 + i * delta.1);
+            if self.at(p.0, p.1).is_some() {
+                positions.push(p);
+                i += 1;
+            } else {
+                break;
+            }
         }
 
-        if p2 != a_i && p2 != b_i {
-            positions.push(p2);
-        }
-
-        if p3 != a_i && p3 != b_i {
-            positions.push(p3);
-        }
-
-        if p4 != a_i && p4 != b_i {
-            positions.push(p4);
+        let delta = (b_i.0 - a_i.0, b_i.1 - a_i.1);
+        let mut i = 0;
+        loop {
+            let p = (b_i.0 + i * delta.0, b_i.1 + i * delta.1);
+            if self.at(p.0, p.1).is_some() {
+                positions.push(p);
+                i += 1;
+            } else {
+                break;
+            }
         }
         positions
     }

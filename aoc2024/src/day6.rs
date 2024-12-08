@@ -71,9 +71,9 @@ impl Grid {
     fn clone(&self) -> Self {
         let mut data = Vec::new();
 
-        for (l, line) in self.data.iter().by_ref().enumerate() {
+        for (_, line) in self.data.iter().by_ref().enumerate() {
             let mut inner_data = Vec::new();
-            for (p, ch) in line.iter().by_ref().enumerate() {
+            for (_, ch) in line.iter().by_ref().enumerate() {
                 inner_data.push(*ch);
             }
             data.push(inner_data);
@@ -95,8 +95,8 @@ impl Grid {
 
     fn area(&self) -> usize {
         let mut area = 0;
-        for (l, line) in self.data.iter().by_ref().enumerate() {
-            for (p, _) in line.iter().by_ref().enumerate() {
+        for (_, line) in self.data.iter().by_ref().enumerate() {
+            for (_, _) in line.iter().by_ref().enumerate() {
                 area += 1;
             }
         }
