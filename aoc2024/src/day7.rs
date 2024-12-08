@@ -6,12 +6,12 @@ pub fn solve(input: &str) {
     println!("Part 2 Result: {part_2_total}");
 }
 
-pub fn solve_part_1(input: &str) -> usize {
+fn solve_part_1(input: &str) -> usize {
     let equations = parse_equations_from_str(input);
     return count_equations(&equations);
 }
 
-pub fn solve_part_2(input: &str) -> usize {
+fn solve_part_2(input: &str) -> usize {
     let equations = parse_equations_from_str(input);
     return count_equations_all_variants(&equations);
 }
