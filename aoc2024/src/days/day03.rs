@@ -8,10 +8,10 @@ enum Enablement {
 }
 
 pub fn solve(input: &str) {
-    let part_1_total = compute_multiplications(&input);
+    let part_1_total = compute_multiplications(input);
     println!("Part 1 Result: {part_1_total}");
 
-    let part_2_total: usize = compute_enabled_multiplications(&input);
+    let part_2_total: usize = compute_enabled_multiplications(input);
     println!("Part 2 Result: {part_2_total}");
 }
 
@@ -35,7 +35,7 @@ fn compute_enabled_multiplications(input: &str) -> usize {
                 }
                 // println!("Running from {start} to {}", start + stop);
                 total += compute_multiplications(&input[start..(start + stop)]);
-                start = start + stop;
+                start += stop;
                 stop = input.len() - start;
             }
             Enablement::Dont => {
@@ -45,7 +45,7 @@ fn compute_enabled_multiplications(input: &str) -> usize {
                     stop = *p;
                 }
                 // println!("Skipping from {start} to {}", start + stop);
-                start = start + stop;
+                start += stop;
                 stop = input.len() - start;
             }
         }
@@ -58,7 +58,7 @@ fn compute_multiplications(input: &str) -> usize {
     let mut total: usize = 0;
 
     let mul_re = Regex::new(MUL_REGEX).unwrap();
-    let captures = mul_re.captures_iter(&input);
+    let captures = mul_re.captures_iter(input);
 
     for c in captures {
         let x = c.name("X");

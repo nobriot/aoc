@@ -9,7 +9,7 @@ pub fn solve(input: &str) {
     let mut right_numbers: Vec<isize> = Vec::new();
 
     // This is an ugly way to extract numbers:
-    let captures = numbers_re.captures_iter(&input);
+    let captures = numbers_re.captures_iter(input);
 
     for value in captures {
         let left = value.name("left");

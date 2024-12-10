@@ -1,8 +1,8 @@
 pub fn solve(input: &str) {
-    let part_1_total = solve_part_1(&input);
+    let part_1_total = solve_part_1(input);
     println!("Part 1 Result: {part_1_total}");
 
-    let part_2_total: usize = solve_part_2(&input);
+    let part_2_total: usize = solve_part_2(input);
     println!("Part 2 Result: {part_2_total}");
 }
 
@@ -98,10 +98,8 @@ impl Grid {
         let mut count: usize = 0;
         for (l, line) in self.data.clone().into_iter().enumerate() {
             for (p, ch) in line.into_iter().enumerate() {
-                if ch == center {
-                    if self.check_diagonals(l, p, word) {
-                        count += 1;
-                    }
+                if ch == center && self.check_diagonals(l, p, word) {
+                    count += 1;
                 }
             }
         }

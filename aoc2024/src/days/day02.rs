@@ -103,5 +103,5 @@ fn line_is_safe(numbers: &Split<'_, &str>, pop_index: Option<usize>) -> bool {
         }
     }
     // println!("line: {line} is safe");
-    return true;
+    true
 }

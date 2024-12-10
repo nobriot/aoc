@@ -1,10 +1,10 @@
 use std::ops::Index;
 
 pub fn solve(input: &str) {
-    let part_1_total = solve_part_1(&input);
+    let part_1_total = solve_part_1(input);
     println!("Part 1 Result: {part_1_total}");
 
-    let part_2_total: usize = solve_part_2(&input);
+    let part_2_total: usize = solve_part_2(input);
     println!("Part 2 Result: {part_2_total}");
 }
 
@@ -27,7 +27,7 @@ fn solve_part_1(input: &str) -> usize {
             // println!("i : {:?}", i);
             for r in rules.iter().as_ref() {
                 // println!("Checking rule : {:?}", r);
-                if r.check_rule(&u[0..i], u[i], &u[i + 1..]) == false {
+                if !r.check_rule(&u[0..i], u[i], &u[i + 1..]) {
                     continue 'updates;
                 }
             }
@@ -56,7 +56,7 @@ fn solve_part_2(input: &str) -> usize {
             // println!("i : {:?}", i);
             for r in rules.iter().as_ref() {
                 // println!("Checking rule : {:?}", r);
-                if r.check_rule(&u[0..i], u[i], &u[i + 1..]) == false {
+                if !r.check_rule(&u[0..i], u[i], &u[i + 1..]) {
                     incorrect.push(u);
                     continue 'updates;
                 }
@@ -73,13 +73,13 @@ fn solve_part_2(input: &str) -> usize {
             for i in 0..u.len() - 1 {
                 for r in rules.iter().as_ref() {
                     // println!("Checking rule : {:?}", r);
-                    if r.check_rule(&u[0..i], u[i], &u[i + 1..]) == false {
+                    if !r.check_rule(&u[0..i], u[i], &u[i + 1..]) {
                         u.fix(r);
                     }
                 }
                 for r in rules.iter().as_ref() {
                     // println!("Checking rule : {:?}", r);
-                    if r.check_rule(&u[0..i], u[i], &u[i + 1..]) == false {
+                    if !r.check_rule(&u[0..i], u[i], &u[i + 1..]) {
                         continue 'correct;
                     }
                 }

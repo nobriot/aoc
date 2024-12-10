@@ -12,7 +12,7 @@ pub fn solve(input: &str) {
 
 fn solve_part_1(grid: &Grid) -> usize {
     let mut guard = Guard::from_grid(grid).expect("Could not find the guard");
-    let _ = guard.walk(&grid);
+    let _ = guard.walk(grid);
 
     guard.covered_ground()
 }
@@ -71,9 +71,9 @@ impl Grid {
     fn clone(&self) -> Self {
         let mut data = Vec::new();
 
-        for (_, line) in self.data.iter().by_ref().enumerate() {
+        for line in self.data.iter().by_ref() {
             let mut inner_data = Vec::new();
-            for (_, ch) in line.iter().by_ref().enumerate() {
+            for ch in line.iter().by_ref() {
                 inner_data.push(*ch);
             }
             data.push(inner_data);
@@ -95,8 +95,8 @@ impl Grid {
 
     fn area(&self) -> usize {
         let mut area = 0;
-        for (_, line) in self.data.iter().by_ref().enumerate() {
-            for (_, _) in line.iter().by_ref().enumerate() {
+        for line in self.data.iter().by_ref() {
+            for _ in line.iter().by_ref() {
                 area += 1;
             }
         }
@@ -226,17 +226,17 @@ impl Guard {
                     }
                     self.obstacles.insert((l, p, self.dir));
                     self.dir.turn_right();
-                    return self.walk(grid);
+                    self.walk(grid)
                 }
                 _ => {
-                    self.line = l as usize;
-                    self.pos = p as usize;
+                    self.line = l;
+                    self.pos = p;
                     self.visited.insert((self.line, self.pos));
                     // Slick =)
-                    return Some(self.walk(grid)? + 1);
+                    Some(self.walk(grid)? + 1)
                 }
             },
-            None => return Some(0),
+            None => Some(0),
         }
     }
 

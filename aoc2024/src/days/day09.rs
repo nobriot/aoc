@@ -33,9 +33,7 @@ impl Disk {
     pub fn from_str(input: &str) -> Self {
         let map = input
             .chars()
-            .map(|c| c.to_digit(10))
-            .filter(|c| c.is_some())
-            .map(|c| c.unwrap())
+            .filter_map(|c| c.to_digit(10))
             .collect();
         let blocks = Blocks::from_map(&map);
 

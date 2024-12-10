@@ -1,19 +1,19 @@
 pub fn solve(input: &str) {
-    let part_1_total = solve_part_1(&input);
+    let part_1_total = solve_part_1(input);
     println!("Part 1 Result: {part_1_total}");
 
-    let part_2_total: usize = solve_part_2(&input);
+    let part_2_total: usize = solve_part_2(input);
     println!("Part 2 Result: {part_2_total}");
 }
 
 fn solve_part_1(input: &str) -> usize {
     let equations = parse_equations_from_str(input);
-    return count_equations(&equations);
+    count_equations(&equations)
 }
 
 fn solve_part_2(input: &str) -> usize {
     let equations = parse_equations_from_str(input);
-    return count_equations_all_variants(&equations);
+    count_equations_all_variants(&equations)
 }
 
 fn parse_equations_from_str(input: &str) -> Vec<Equation> {
@@ -105,7 +105,7 @@ impl Equation {
                 return true;
             }
         }
-        return false;
+        false
     }
 
     pub fn is_possible_extended(&self) -> bool {
@@ -117,7 +117,7 @@ impl Equation {
                 return true;
             }
         }
-        return false;
+        false
     }
     /// Calculate the if the results matches given a slice of operators
     /// early abort if the current calculation is too large.
@@ -178,7 +178,7 @@ fn digits(a: usize) -> u32 {
     let mut remainder = a;
     let mut digits = 1;
     while remainder >= 10 {
-        remainder = remainder / 10;
+        remainder /= 10;
         digits += 1;
     }
     digits
