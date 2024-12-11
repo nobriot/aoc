@@ -1,12 +1,17 @@
+use crate::input;
 use std::collections::HashSet;
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_8_INPUT;
     let grid = Grid::from_str(input);
+
     let part_1_total = solve_part_1(&grid);
-    println!("Part 1 Result: {part_1_total}");
+    // println!("Part 1 Result: {part_1_total}");
 
     let part_2_total = solve_part_2(&grid);
-    println!("Part 2 Result: {part_2_total}");
+    // println!("Part 2 Result: {part_2_total}");
+
+    (Some(part_1_total), Some(part_2_total))
 }
 
 fn solve_part_1(grid: &Grid) -> usize {

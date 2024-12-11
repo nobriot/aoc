@@ -1,11 +1,16 @@
+use crate::input;
 use std::ops::Index;
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_5_INPUT;
+
     let part_1_total = solve_part_1(input);
-    println!("Part 1 Result: {part_1_total}");
+    // println!("Part 1 Result: {part_1_total}");
 
     let part_2_total: usize = solve_part_2(input);
-    println!("Part 2 Result: {part_2_total}");
+    //println!("Part 2 Result: {part_2_total}");
+
+    (Some(part_1_total), Some(part_2_total))
 }
 
 fn solve_part_1(input: &str) -> usize {

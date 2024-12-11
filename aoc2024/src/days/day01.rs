@@ -1,8 +1,10 @@
+use crate::input;
 use regex::Regex;
 
 const NUMBERS_REGEX: &str = r#"(?<left>\d+) +(?<right>\d+)"#;
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_1_INPUT;
     let numbers_re = Regex::new(NUMBERS_REGEX).unwrap();
 
     let mut left_numbers: Vec<isize> = Vec::new();
@@ -37,7 +39,7 @@ pub fn solve(input: &str) {
         result += (left_numbers[i] - right_numbers[i]).abs();
     }
 
-    println!("Part 1 Result: {result}");
+    // println!("Part 1 Result: {result}");
 
     // Similarity score
     let mut similarity_score: usize = 0;
@@ -45,5 +47,7 @@ pub fn solve(input: &str) {
     for value in left_numbers {
         similarity_score += value as usize * right_numbers.iter().filter(|&n| *n == value).count();
     }
-    println!("Part 2 Result: {similarity_score}");
+    // println!("Part 2 Result: {similarity_score}");
+
+    (Some(result as usize), Some(similarity_score as usize))
 }

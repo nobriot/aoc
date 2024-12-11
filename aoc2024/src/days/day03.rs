@@ -1,3 +1,4 @@
+use crate::input;
 use regex::Regex;
 
 const MUL_REGEX: &str = r#"mul\((?<X>\d{1,3}),(?<Y>\d+{1,3})\)"#;
@@ -7,12 +8,16 @@ enum Enablement {
     Dont,
 }
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_3_INPUT;
+
     let part_1_total = compute_multiplications(input);
-    println!("Part 1 Result: {part_1_total}");
+    // println!("Part 1 Result: {part_1_total}");
 
     let part_2_total: usize = compute_enabled_multiplications(input);
-    println!("Part 2 Result: {part_2_total}");
+    // println!("Part 2 Result: {part_2_total}");
+
+    (Some(part_1_total), Some(part_2_total))
 }
 
 fn compute_enabled_multiplications(input: &str) -> usize {

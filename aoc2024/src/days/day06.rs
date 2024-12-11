@@ -1,13 +1,18 @@
 use std::collections::HashSet;
 
-pub fn solve(input: &str) {
+use crate::input;
+
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_6_INPUT;
     let grid = Grid::from_str(input);
 
     let part_1_total = solve_part_1(&grid);
-    println!("Part 1 Result: {part_1_total}");
+    //println!("Part 1 Result: {part_1_total}");
 
     let part_2_total: usize = solve_part_2(&grid);
-    println!("Part 2 Result: {part_2_total}");
+    //println!("Part 2 Result: {part_2_total}");
+
+    (Some(part_1_total), Some(part_2_total))
 }
 
 fn solve_part_1(grid: &Grid) -> usize {
@@ -19,17 +24,18 @@ fn solve_part_1(grid: &Grid) -> usize {
 
 fn solve_part_2(grid: &Grid) -> usize {
     let area = grid.area();
-    println!("The grid is {} squares", area);
+    // println!("The grid is {} squares", area);
 
     let obstacle_positions = grid.get_char_positions('.');
+    /*
     let g1 = grid.get_char_positions('^');
     let o1 = grid.get_char_positions('#');
-    println!(
+     println!(
         "There are {} possible obstacles ({} {})",
         obstacle_positions.len(),
         g1.len(),
         o1.len()
-    );
+    );*/
 
     let mut stuck_count = 0;
     for (l, p) in obstacle_positions {

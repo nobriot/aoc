@@ -1,6 +1,8 @@
+use crate::input;
 use std::str::Split;
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_2_INPUT;
     // Problem 1
     let mut safe_count: usize = 0;
 
@@ -10,8 +12,7 @@ pub fn solve(input: &str) {
             safe_count += 1;
         }
     }
-
-    println!("Part 1 Result: {safe_count}");
+    // println!("Part 1 Result: {safe_count}");
 
     // Problem 2
     // Just brute force here and pop all the numbers to see if we can
@@ -38,7 +39,9 @@ pub fn solve(input: &str) {
             }
         }
     }
-    println!("Part 2 Result: {corrected_safe_count}");
+    // println!("Part 2 Result: {corrected_safe_count}");
+
+    (Some(safe_count), Some(corrected_safe_count))
 }
 
 fn line_is_safe(numbers: &Split<'_, &str>, pop_index: Option<usize>) -> bool {
