@@ -10,6 +10,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     c.bench_function("day 6", |b| b.iter(|| days::day06::solve()));
     c.bench_function("day 7", |b| b.iter(|| days::day07::solve()));
     c.bench_function("day 8", |b| b.iter(|| days::day08::solve()));
+    c.bench_function("day 12", |b| b.iter(|| days::day12::solve()));
 }
 
 criterion_group!(benches, criterion_benchmark);
