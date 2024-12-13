@@ -1,36 +1,30 @@
 use crate::input;
-use std::collections::HashSet;
+
+type Regions = Vec<Vec<(usize, usize)>>;
 
 pub fn solve() -> (Option<usize>, Option<usize>) {
     let input = input::DAY_12_INPUT;
     let grid = Grid::from_str(input);
-    let part_1_total = solve_part_1(&grid);
-    //println!("Part 1 Result: {part_1_total}");
-
-    let part_2_total = solve_part_2(&grid);
-    //println!("Part 2 Result: {part_2_total}");
+    let regions = grid.get_regions();
+    let part_1_total = solve_part_1(&grid, &regions);
+    let part_2_total = solve_part_2(&grid, &regions);
     (part_1_total, part_2_total)
 }
 
-fn solve_part_1(grid: &Grid) -> Option<usize> {
-    let regions = grid.get_regions();
-
+fn solve_part_1(grid: &Grid, regions: &Regions) -> Option<usize> {
     let mut price = 0;
-    for region in &regions {
-        // println!("Region {}-{}", region[0].0, region[0].1);
+    for region in regions {
+        // println!("Regions {}-{}", region[0].0, region[0].1);
         price += grid.get_region_price(region.as_slice());
     }
 
     Some(price)
 }
 
-fn solve_part_2(grid: &Grid) -> Option<usize> {
-    let regions = grid.get_regions();
-    // println!("Region count: {}", regions.len());
-
+fn solve_part_2(grid: &Grid, regions: &Regions) -> Option<usize> {
     let mut price = 0;
-    for region in &regions {
-        // println!("Region {}-{}", region[0].0, region[0].1);
+    for region in regions {
+        // println!("Regions {}-{}", region[0].0, region[0].1);
         price += grid.get_new_region_price(region.as_slice());
     }
 
@@ -57,7 +51,7 @@ impl Grid {
         self.data.get(line)?.get(pos).copied()
     }
 
-    fn get_regions(&self) -> Vec<Vec<(usize, usize)>> {
+    fn get_regions(&self) -> Regions {
         // Keep track of the tiles we used
         let mut used: Vec<Vec<bool>> = self
             .data
@@ -65,7 +59,7 @@ impl Grid {
             .map(|l| l.iter().map(|_| false).collect())
             .collect();
 
-        let mut regions: Vec<Vec<(usize, usize)>> = Vec::new();
+        let mut regions: Regions = Vec::new();
 
         for (l, line) in self.data.iter().enumerate() {
             for (p, ch) in line.iter().enumerate() {

@@ -27,15 +27,9 @@ macro_rules! solve_day {
     };
 }
 
-const DAY_4_INPUT: &str = include_str!("input/day04.txt");
-const DAY_5_INPUT: &str = include_str!("input/day05.txt");
-const DAY_6_INPUT: &str = include_str!("input/day06.txt");
-const DAY_7_INPUT: &str = include_str!("input/day07.txt");
-const DAY_8_INPUT: &str = include_str!("input/day08.txt");
 const DAY_9_INPUT: &str = include_str!("input/day09.txt");
 const DAY_10_INPUT: &str = include_str!("input/day10.txt");
 const DAY_11_INPUT: &str = include_str!("input/day11.txt");
-const DAY_12_INPUT: &str = include_str!("input/day12.txt");
 const DAY_13_INPUT: &str = include_str!("input/day13.txt");
 const DAY_14_INPUT: &str = include_str!("input/day14.txt");
 const DAY_15_INPUT: &str = include_str!("input/day15.txt");
@@ -143,12 +137,16 @@ fn main() {
     // Day 13
     if args.all || args.days.contains(&13) {
         println!("Solving Day {}.", 13);
-        days::day13::solve(DAY_13_INPUT);
+        let results = days::day13::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 14
     if args.all || args.days.contains(&14) {
         println!("Solving Day {}.", 14);
-        days::day14::solve(DAY_14_INPUT);
+        let results = days::day14::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 15
     if args.all || args.days.contains(&15) {
