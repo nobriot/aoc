@@ -36,7 +36,6 @@ const DAY_15_INPUT: &str = include_str!("input/day15.txt");
 const DAY_16_INPUT: &str = include_str!("input/day16.txt");
 const DAY_17_INPUT: &str = include_str!("input/day17.txt");
 const DAY_18_INPUT: &str = include_str!("input/day18.txt");
-const DAY_19_INPUT: &str = include_str!("input/day19.txt");
 const DAY_20_INPUT: &str = include_str!("input/day20.txt");
 const DAY_21_INPUT: &str = include_str!("input/day21.txt");
 const DAY_22_INPUT: &str = include_str!("input/day22.txt");
@@ -151,12 +150,16 @@ fn main() {
     // Day 15
     if args.all || args.days.contains(&15) {
         println!("Solving Day {}.", 15);
-        days::day15::solve(DAY_15_INPUT);
+        // let results = days::day15::solve();
+        // println!("Part 1 result: {:?}", results.0);
+        // println!("Part 2 result: {:?}", results.1);
     }
     // Day 16
     if args.all || args.days.contains(&16) {
         println!("Solving Day {}.", 16);
-        days::day16::solve(DAY_16_INPUT);
+        let results = days::day16::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 17
     if args.all || args.days.contains(&17) {
@@ -171,7 +174,9 @@ fn main() {
     // Day 19
     if args.all || args.days.contains(&19) {
         println!("Solving Day {}.", 19);
-        days::day19::solve(DAY_19_INPUT);
+        let results = days::day19::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 20
     if args.all || args.days.contains(&20) {

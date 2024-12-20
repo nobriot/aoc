@@ -1,7 +1,7 @@
 use crate::input;
 
 pub fn solve() -> (Option<usize>, Option<usize>) {
-    let input = input::DAY_13_INPUT;
+    let input = input::DAY_14_INPUT;
 
     let part_1_total = solve_part_1(input);
     // println!("Part 1 Result: {part_1_total}");
