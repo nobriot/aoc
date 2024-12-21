@@ -1,5 +1,6 @@
 use crate::input;
-use std::{collections::HashSet, hash::Hash};
+use std::collections::HashMap;
+use std::collections::HashSet;
 
 pub fn solve() -> (Option<usize>, Option<usize>) {
     let input = input::DAY_19_INPUT;
@@ -23,12 +24,36 @@ fn solve_part_1(patterns: &Patterns, designs: &Designs) -> Option<usize> {
 }
 
 fn solve_part_2(patterns: &Patterns, designs: &Designs) -> Option<usize> {
-    None
+    Some(designs.count_all_designs(patterns))
+}
+
+#[derive(Debug)]
+struct TrieNode {
+    children: HashMap<char, TrieNode>,
+    is_end: bool,
+}
+
+impl TrieNode {
+    pub fn new() -> Self {
+        Self {
+            children: HashMap::new(),
+            is_end: false,
+        }
+    }
+
+    pub fn insert(&mut self, word: &str) {
+        let mut current = self;
+        for c in word.chars() {
+            current = current.children.entry(c).or_insert(TrieNode::new());
+        }
+        current.is_end = true;
+    }
 }
 
 #[derive(Debug)]
 struct Patterns {
     patterns: Vec<String>,
+    trie: TrieNode,
 }
 
 impl Patterns {
@@ -36,7 +61,13 @@ impl Patterns {
         let mut patterns: Vec<String> = input.split(",").map(|s| s.trim().to_string()).collect();
         patterns.dedup_by(|a, b| a == b);
         patterns.retain(|s| !s.is_empty());
-        Self { patterns }
+
+        let mut trie = TrieNode::new();
+        for pattern in &patterns {
+            trie.insert(pattern);
+        }
+
+        Self { patterns, trie }
     }
 }
 
@@ -59,17 +90,76 @@ impl Designs {
         let mut count = 0;
 
         self.designs.iter().for_each(|design| {
-            print!("Design: {:?} - ", design);
+            //print!("Design: {:?} - ", design);
             let mut visited: HashSet<String> = HashSet::new();
             if Self::is_design_possible(design, None, &mut visited, patterns) {
-                println!("possible");
+                //println!("possible");
                 count += 1
             } else {
-                println!("not possible");
+                //println!("not possible");
             }
-            // panic!();
         });
 
+        count
+    }
+
+    pub fn count_all_designs(&self, patterns: &Patterns) -> usize {
+        let mut count = 0;
+
+        self.designs.iter().for_each(|design| {
+            // print!("Design: {:?} - ", design);
+            let mut visited: HashMap<String, usize> = HashMap::new();
+            count += Self::count_design_combinations(design, design, &mut visited, patterns);
+            // println!("Design: {:?} - Count: {:?}", design, count);
+            // println!("Visited: {:?} ", visited);
+        });
+
+        count
+    }
+
+    fn count_design_combinations(
+        design: &str,
+        remaining: &str,
+        visited: &mut HashMap<String, usize>,
+        patterns: &Patterns,
+    ) -> usize {
+        // Current is the start of design minus remaining
+        let current = String::from(&design[..design.len() - remaining.len()]);
+        // println!("Current: {:?} - Remaining: {:?}", current, remaining);
+
+        if let Some(&cached_result) = visited.get(&current) {
+            return cached_result;
+        }
+
+        let mut count = 0;
+        let mut node = &patterns.trie;
+
+        for (i, c) in remaining.chars().enumerate() {
+            match node.children.get(&c) {
+                Some(child) => {
+                    node = child;
+
+                    if node.is_end {
+                        let new_remaining = &remaining[i + 1..];
+                        if new_remaining.is_empty() {
+                            count += 1;
+                        } else {
+                            count += Self::count_design_combinations(
+                                design,
+                                new_remaining,
+                                visited,
+                                patterns,
+                            );
+                        }
+                    }
+                }
+                None => {
+                    break;
+                }
+            }
+        }
+
+        visited.insert(current, count);
         count
     }
 
@@ -84,6 +174,7 @@ impl Designs {
         if visited.contains(&current) {
             return false;
         }
+        visited.insert(current.clone());
 
         // println!("Current: {:?}", current);
         for pattern in &patterns.patterns {
@@ -104,7 +195,6 @@ impl Designs {
                 current.pop();
             }
         }
-        visited.insert(current.clone());
 
         false
     }
