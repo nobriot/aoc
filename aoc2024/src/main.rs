@@ -186,7 +186,9 @@ fn main() {
     // Day 21
     if args.all || args.days.contains(&21) {
         println!("Solving Day {}.", 21);
-        days::day21::solve(DAY_21_INPUT);
+        let results = days::day21::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 22
     if args.all || args.days.contains(&22) {
