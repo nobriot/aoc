@@ -1,0 +1,12 @@
+[package]
+name = "aoc_utils"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+name = "aoc_utils"
+path = "utils/lib.rs"
+edition = "2021"
+
+[workspace]
+members = ["aoc2024"]

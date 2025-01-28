@@ -1,17 +1,18 @@
+use crate::input;
 use std::collections::HashSet;
 
-pub fn solve(input: &str) {
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_10_INPUT;
+
     let grid = Grid::from_str(input);
-    // println!("Grid: \r\n{}", grid);
 
     let part_1_total = solve_part_1(&grid);
-    println!("Part 1 Result: {part_1_total}");
+    let part_2_total = solve_part_2(&grid);
 
-    let part_2_total: usize = solve_part_2(&grid);
-    println!("Part 2 Result: {part_2_total}");
+    (part_1_total, part_2_total)
 }
 
-fn solve_part_1(grid: &Grid) -> usize {
+fn solve_part_1(grid: &Grid) -> Option<usize> {
     let start_positions = grid.get_number_positions(0);
     let mut count = 0;
     for (l, p) in start_positions {
@@ -19,16 +20,16 @@ fn solve_part_1(grid: &Grid) -> usize {
             .find_trails_ends_from_position(l as isize, p as isize)
             .len();
     }
-    count
+    Some(count)
 }
 
-fn solve_part_2(grid: &Grid) -> usize {
+fn solve_part_2(grid: &Grid) -> Option<usize> {
     let start_positions = grid.get_number_positions(0);
     let mut count = 0;
     for (l, p) in start_positions {
         count += grid.find_trails_from_position(l as isize, p as isize);
     }
-    count
+    Some(count)
 }
 
 #[derive(Debug)]

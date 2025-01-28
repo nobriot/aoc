@@ -1,27 +1,29 @@
+use crate::input;
 use std::collections::HashMap;
 
-pub fn solve(input: &str) {
-    let part_1_total = solve_part_1(input);
-    println!("Part 1 Result: {part_1_total}");
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_11_INPUT;
 
-    let part_2_total: usize = solve_part_2(input);
-    println!("Part 2 Result: {part_2_total}");
+    let part_1_total = solve_part_1(&input);
+    let part_2_total = solve_part_2(&input);
+
+    (part_1_total, part_2_total)
 }
 
-fn solve_part_1(input: &str) -> usize {
+fn solve_part_1(input: &str) -> Option<usize> {
     let mut stones = Stones::from_str(input);
     for _ in 0..25 {
         stones.blink();
     }
-    stones.len()
+    Some(stones.len())
 }
 
-fn solve_part_2(input: &str) -> usize {
+fn solve_part_2(input: &str) -> Option<usize> {
     let mut stones = Stones::from_str(input);
     for _ in 0..75 {
         stones.blink();
     }
-    stones.len()
+    Some(stones.len())
 }
 
 #[derive(Debug, Clone)]

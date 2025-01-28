@@ -27,21 +27,6 @@ macro_rules! solve_day {
     };
 }
 
-const DAY_9_INPUT: &str = include_str!("input/day09.txt");
-const DAY_10_INPUT: &str = include_str!("input/day10.txt");
-const DAY_11_INPUT: &str = include_str!("input/day11.txt");
-const DAY_13_INPUT: &str = include_str!("input/day13.txt");
-const DAY_14_INPUT: &str = include_str!("input/day14.txt");
-const DAY_15_INPUT: &str = include_str!("input/day15.txt");
-const DAY_16_INPUT: &str = include_str!("input/day16.txt");
-const DAY_17_INPUT: &str = include_str!("input/day17.txt");
-const DAY_18_INPUT: &str = include_str!("input/day18.txt");
-const DAY_20_INPUT: &str = include_str!("input/day20.txt");
-const DAY_21_INPUT: &str = include_str!("input/day21.txt");
-const DAY_22_INPUT: &str = include_str!("input/day22.txt");
-const DAY_23_INPUT: &str = include_str!("input/day23.txt");
-const DAY_24_INPUT: &str = include_str!("input/day24.txt");
-
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long)]
@@ -114,17 +99,23 @@ fn main() {
     // Day 9
     if args.all || args.days.contains(&9) {
         println!("Solving Day {}.", 9);
-        days::day09::solve(DAY_9_INPUT);
+        let results = days::day09::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 10
     if args.all || args.days.contains(&10) {
         println!("Solving Day {}.", 10);
-        days::day10::solve(DAY_10_INPUT);
+        let results = days::day10::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 11
     if args.all || args.days.contains(&11) {
         println!("Solving Day {}.", 11);
-        days::day11::solve(DAY_11_INPUT);
+        let results = days::day11::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 12
     if args.all || args.days.contains(&12) {
@@ -150,9 +141,9 @@ fn main() {
     // Day 15
     if args.all || args.days.contains(&15) {
         println!("Solving Day {}.", 15);
-        // let results = days::day15::solve();
-        // println!("Part 1 result: {:?}", results.0);
-        // println!("Part 2 result: {:?}", results.1);
+        let results = days::day15::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 16
     if args.all || args.days.contains(&16) {
@@ -164,12 +155,16 @@ fn main() {
     // Day 17
     if args.all || args.days.contains(&17) {
         println!("Solving Day {}.", 17);
-        days::day17::solve(DAY_17_INPUT);
+        let results = days::day17::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 18
     if args.all || args.days.contains(&18) {
         println!("Solving Day {}.", 18);
-        days::day18::solve(DAY_18_INPUT);
+        let results = days::day18::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 19
     if args.all || args.days.contains(&19) {
@@ -181,7 +176,9 @@ fn main() {
     // Day 20
     if args.all || args.days.contains(&20) {
         println!("Solving Day {}.", 20);
-        days::day20::solve(DAY_20_INPUT);
+        let results = days::day20::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 21
     if args.all || args.days.contains(&21) {
@@ -193,16 +190,22 @@ fn main() {
     // Day 22
     if args.all || args.days.contains(&22) {
         println!("Solving Day {}.", 22);
-        days::day22::solve(DAY_22_INPUT);
+        let results = days::day22::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 23
     if args.all || args.days.contains(&23) {
         println!("Solving Day {}.", 23);
-        days::day23::solve(DAY_23_INPUT);
+        let results = days::day23::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
     // Day 24
     if args.all || args.days.contains(&24) {
         println!("Solving Day {}.", 24);
-        days::day24::solve(DAY_24_INPUT);
+        let results = days::day24::solve();
+        println!("Part 1 result: {:?}", results.0);
+        println!("Part 2 result: {:?}", results.1);
     }
 }

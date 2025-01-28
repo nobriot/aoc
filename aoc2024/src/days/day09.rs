@@ -1,26 +1,30 @@
-pub fn solve(input: &str) {
+use crate::input;
+
+pub fn solve() -> (Option<usize>, Option<usize>) {
+    let input = input::DAY_9_INPUT;
+
     let part_1_total = solve_part_1(input);
-    println!("Part 1 Result: {part_1_total}");
 
     let part_2_total = solve_part_2(input);
-    println!("Part 2 Result: {part_2_total}");
+
+    (part_1_total, part_2_total)
 }
 
 //
-fn solve_part_1(input: &str) -> usize {
+fn solve_part_1(input: &str) -> Option<usize> {
     let mut disk = Disk::from_str(input);
     //println!("Disk created : {:?}", disk.blocks);
     disk.reorganize_blocks();
     //println!("Updated disk: {:?}", disk.blocks);
-    disk.calculate_block_checksum()
+    Some(disk.calculate_block_checksum())
 }
 
-fn solve_part_2(input: &str) -> usize {
+fn solve_part_2(input: &str) -> Option<usize> {
     let mut disk = Disk::from_str(input);
     //println!("Disk created : {:?}", disk.blocks);
     disk.reorganize_blocks_filewise();
     //println!("Updated disk: {:?}", disk.blocks);
-    disk.calculate_block_checksum()
+    Some(disk.calculate_block_checksum())
 }
 
 #[derive(Debug, Clone)]
@@ -31,10 +35,7 @@ struct Disk {
 
 impl Disk {
     pub fn from_str(input: &str) -> Self {
-        let map = input
-            .chars()
-            .filter_map(|c| c.to_digit(10))
-            .collect();
+        let map = input.chars().filter_map(|c| c.to_digit(10)).collect();
         let blocks = Blocks::from_map(&map);
 
         Disk { map, blocks }
