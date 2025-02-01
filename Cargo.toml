@@ -9,4 +9,4 @@ path = "utils/lib.rs"
 edition = "2021"
 
 [workspace]
-members = ["aoc2024"]
+members = ["aoc2024", "macros"]

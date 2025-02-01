@@ -70,10 +70,10 @@ impl Equation {
 
         // divisions can also give some possible solutions due to rounding errors with isize types.
         // Discard solutions if they do not add up to the result
-        if !(self.prize.0 == A * self.a.0 + B * self.b.0) {
+        if self.prize.0 != A * self.a.0 + B * self.b.0 {
             return None;
         }
-        if !(self.prize.1 == A * self.a.1 + B * self.b.1) {
+        if self.prize.1 != A * self.a.1 + B * self.b.1 {
             return None;
         }
 
@@ -100,10 +100,10 @@ impl Equation {
 
         // divisions can also give some possible solutions due to rounding errors with isize types.
         // Discard solutions if they do not add up to the result
-        if !(prize.0 == A * self.a.0 + B * self.b.0) {
+        if prize.0 != A * self.a.0 + B * self.b.0 {
             return None;
         }
-        if !(prize.1 == A * self.a.1 + B * self.b.1) {
+        if prize.1 != A * self.a.1 + B * self.b.1 {
             return None;
         }
 

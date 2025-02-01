@@ -49,5 +49,5 @@ pub fn solve() -> (Option<usize>, Option<usize>) {
     }
     // println!("Part 2 Result: {similarity_score}");
 
-    (Some(result as usize), Some(similarity_score as usize))
+    (Some(result as usize), Some(similarity_score))
 }

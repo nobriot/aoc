@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 pub fn solve() -> (Option<usize>, Option<usize>) {
     let input = input::DAY_19_INPUT;
-    let patterns = Patterns::from_str(input.lines().nth(0).expect("File is not empty"));
+    let patterns = Patterns::from_str(input.lines().next().expect("File is not empty"));
     let designs = Designs::from_str(input);
     println!(
         "Patterns: {:?}, Designs: {:?}",

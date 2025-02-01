@@ -85,12 +85,7 @@ impl Grid {
         current: (isize, isize),
     ) {
         let (l, p) = current;
-        for (ld, pd) in vec![
-            (l as isize - 1, p as isize),
-            (l as isize + 1, p as isize),
-            (l as isize, p as isize - 1),
-            (l as isize, p as isize + 1),
-        ] {
+        for (ld, pd) in [(l - 1, p), (l + 1, p), (l, p - 1), (l, p + 1)] {
             let neighbor = self.at(ld, pd);
             if neighbor.is_none() || neighbor.unwrap() != c {
                 continue;

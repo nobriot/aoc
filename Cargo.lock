@@ -71,11 +71,21 @@ dependencies = [
 name = "aoc2024"
 version = "1.0.0"
 dependencies = [
+ "aoc_macros",
  "aoc_utils",
  "clap",
  "criterion",
  "itertools 0.13.0",
  "regex",
+]
+
+[[package]]
+name = "aoc_macros"
+version = "1.0.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

@@ -152,7 +152,7 @@ impl Update {
         if self.numbers.is_empty() {
             return None;
         }
-        return Some(*self.numbers.get(self.numbers.len() / 2).unwrap());
+        Some(*self.numbers.get(self.numbers.len() / 2).unwrap())
     }
 
     pub fn len(&self) -> usize {

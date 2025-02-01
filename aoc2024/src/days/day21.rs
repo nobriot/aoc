@@ -78,7 +78,7 @@ impl<'a> Codes<'a> {
         for code in &self.codes {
             println!("-----------------------------------");
             println!("Solving Code: {}", code);
-            let first_codes = Self::solve_keypad(&Self::NUM_KEYPAD, *code);
+            let first_codes = Self::solve_keypad(&Self::NUM_KEYPAD, code);
 
             let mut final_codes = Self::iterate_keypad(&Self::ARROW_KEYPAD, first_codes, 2);
 
@@ -104,7 +104,7 @@ impl<'a> Codes<'a> {
         for code in &self.codes {
             println!("-----------------------------------");
             println!("Solving Code: {}", code);
-            let first_codes = Self::solve_keypad(&Self::NUM_KEYPAD, *code);
+            let first_codes = Self::solve_keypad(&Self::NUM_KEYPAD, code);
 
             let mut final_codes = Self::iterate_keypad(&Self::ARROW_KEYPAD, first_codes, 25);
 
