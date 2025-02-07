@@ -1,3 +1,4 @@
+use super::grid::Grid;
 use std::str::FromStr;
 
 /// Direction, used in particular for 2-d navigation puzzles
@@ -35,6 +36,30 @@ impl Direction {
         }
     }
 
+    /// Updates x and y coordinates if we take one steop in the current
+    /// direction
+    /// Returns new (x, y) coordinates
+    pub fn move_xy(&self, x: usize, y: usize) -> (usize, usize) {
+        match self {
+            Direction::Up => (x, y - 1),
+            Direction::Right => (x + 1, y),
+            Direction::Down => (x, y + 1),
+            Direction::Left => (x - 1, y),
+        }
+    }
+
+    /// Updates a point with (x, y) if we take one steop in the current
+    /// direction
+    /// Returns new point with (x, y) coordinates
+    pub fn move_point(&self, point: (usize, usize)) -> (usize, usize) {
+        match self {
+            Direction::Up => (point.0, point.1 - 1),
+            Direction::Right => (point.0 + 1, point.1),
+            Direction::Down => (point.0, point.1 + 1),
+            Direction::Left => (point.0 - 1, point.1),
+        }
+    }
+
     /// Creates a direction from a char
     pub fn from_char(c: char) -> Option<Self> {
         match c {
@@ -60,22 +85,5 @@ impl std::fmt::Display for Direction {
         };
         write!(f, "{}", c)?;
         Ok(())
-    }
-}
-
-/// Derives a string into a char grid
-/// Could probably be more efficient with u8
-/// .... Maybe later
-impl FromStr for Direction {
-    type Err = ();
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "^" => Ok(Direction::Up),
-            ">" => Ok(Direction::Right),
-            "v" => Ok(Direction::Down),
-            "<" => Ok(Direction::Left),
-            _ => Err(()),
-        }
     }
 }

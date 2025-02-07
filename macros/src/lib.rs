@@ -11,6 +11,7 @@ use syn::{parse::Parse, parse::ParseStream, parse_macro_input, Token};
 /// For example:
 ///
 /// ```rust
+/// use aoc_macros::solve_days;
 /// solve_days!(1, 2, args)
 /// ```
 ///

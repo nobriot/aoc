@@ -1,4 +1,4 @@
-use std::ops::Index;
+use std::ops::{Index, IndexMut};
 use std::str::FromStr;
 
 /// We often need to make a 2 dimensional grid of some sort.
@@ -35,6 +35,21 @@ impl<T: Copy> Grid<T> {
             data: vec![value; width * height],
         }
     }
+
+    /// Checks if a couple of coordinates is within bounds of the grid
+    #[inline]
+    pub fn xy_within_bounds(&self, x: isize, y: isize) -> bool {
+        x >= 0 && (x as usize) < self.width && y >= 0 && (y as usize) < self.height
+    }
+
+    /// Checks if a coordinate tuple is within bounds of the grid
+    #[inline]
+    pub fn point_within_bounds(&self, point: (isize, isize)) -> bool {
+        point.0 >= 0
+            && (point.0 as usize) < self.width
+            && point.1 >= 0
+            && (point.1 as usize) < self.height
+    }
 }
 
 impl<T: Copy + PartialEq> Grid<T> {
@@ -50,10 +65,17 @@ impl<T: Copy + PartialEq> Grid<T> {
             .map(|i| (i % self.width, i / self.width))
     }
 
-    /// Checks if a coordinate tuple is within bounds of the grid
-    #[inline]
-    pub fn within_bounds(&self, x: isize, y: isize) -> bool {
-        x >= 0 && (x as usize) < self.width && y >= 0 && (y as usize) < self.height
+    /// Returns an iterator over the the values in the grid
+    /// that are equal to the value passed in parameter
+    ///
+    /// Return value (x, y), coordinate of elements equal to the value
+    ///
+    pub fn find_all(&self, value: T) -> impl Iterator<Item = (usize, usize)> + '_ {
+        self.data
+            .iter()
+            .enumerate()
+            .filter(move |(_, &v)| v == value)
+            .map(move |(i, _)| (i % self.width, i / self.width))
     }
 }
 
@@ -99,13 +121,41 @@ impl<T> Index<(isize, isize)> for Grid<T> {
 }
 
 ///
-/// Using a `isize` tuple to lookup a value in the grid
+/// Using a `i32` tuple to lookup a value in the grid
 ///
 impl<T> Index<(i32, i32)> for Grid<T> {
     type Output = T;
 
     fn index(&self, (x, y): (i32, i32)) -> &Self::Output {
         &self.data[y as usize * self.width + x as usize]
+    }
+}
+
+///
+/// Using a `usize` tuple to set a value in the grid
+///
+impl<T> IndexMut<(usize, usize)> for Grid<T> {
+    /// x is based on the width and y on the height
+    fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
+        &mut self.data[y * self.width + x]
+    }
+}
+
+///
+/// Using a `isize` tuple to lookup a value in the grid
+///
+impl<T> IndexMut<(isize, isize)> for Grid<T> {
+    fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
+        &mut self.data[y as usize * self.width + x as usize]
+    }
+}
+
+///
+/// Using a `i32` tuple to lookup a value in the grid
+///
+impl<T> IndexMut<(i32, i32)> for Grid<T> {
+    fn index_mut(&mut self, (x, y): (i32, i32)) -> &mut Self::Output {
+        &mut self.data[y as usize * self.width + x as usize]
     }
 }
 
@@ -119,6 +169,11 @@ impl FromStr for Grid<char> {
         let height = s.lines().count();
         let width = s.lines().nth(0).ok_or(())?.len();
         let data: Vec<char> = s.lines().map(|l| l.chars()).flatten().collect();
+
+        if data.len() != width * height {
+            return Err(());
+        }
+
         Ok(Self {
             width,
             height,
@@ -188,12 +243,28 @@ mod tests {
         assert_eq!(grid.find('X'), None, "X is not present in the grid");
 
         // Check bounds
-        assert!(grid.within_bounds(0, 0));
-        assert!(!grid.within_bounds(-1, 0));
-        assert!(!grid.within_bounds(0, -1));
-        assert!(grid.within_bounds((grid.width - 1) as isize, 0));
-        assert!(!grid.within_bounds((grid.width) as isize, 0));
-        assert!(grid.within_bounds(0, (grid.height - 1) as isize));
-        assert!(!grid.within_bounds(0, (grid.height) as isize));
+        assert!(grid.xy_within_bounds(0, 0));
+        assert!(!grid.xy_within_bounds(-1, 0));
+        assert!(!grid.xy_within_bounds(0, -1));
+        assert!(grid.xy_within_bounds((grid.width - 1) as isize, 0));
+        assert!(!grid.xy_within_bounds((grid.width) as isize, 0));
+        assert!(grid.xy_within_bounds(0, (grid.height - 1) as isize));
+        assert!(!grid.xy_within_bounds(0, (grid.height) as isize));
+    }
+
+    #[test]
+    fn test_grid_find_all() {
+        let input = "..x\n.x.\n..x";
+
+        let grid: Grid<char> = Grid::from_str(input).unwrap();
+
+        let mut iter = grid.find_all('x');
+        assert_eq!(iter.next(), Some((2, 0)));
+        assert_eq!(iter.next(), Some((1, 1)));
+        assert_eq!(iter.next(), Some((2, 2)));
+        assert_eq!(iter.next(), None);
+
+        let mut iter = grid.find_all('@');
+        assert_eq!(iter.next(), None);
     }
 }

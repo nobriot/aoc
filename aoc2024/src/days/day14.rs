@@ -5,10 +5,7 @@ pub fn solve() -> (Option<usize>, Option<usize>) {
     let input = input::DAY_14_INPUT;
 
     let part_1_total = solve_part_1(input);
-    // println!("Part 1 Result: {part_1_total}");
-
     let part_2_total = solve_part_2(input);
-    // println!("Part 2 Result: {part_2_total}");
 
     (part_1_total, part_2_total)
 }
@@ -16,7 +13,7 @@ pub fn solve() -> (Option<usize>, Option<usize>) {
 fn solve_part_1(input: &str) -> Option<usize> {
     let mut tiles = input.parse::<Tiles>().expect("Invalid tiles format");
 
-    for i in 0..100 {
+    for _ in 0..100 {
         tiles.increment();
         // Okay now I realize that incrementing 100 times is just the same as a single operation
         // adding dx*100 and dy*100
