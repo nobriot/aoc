@@ -70,6 +70,38 @@ impl Direction {
             _ => None,
         }
     }
+
+    /// Returns a slice of all posible directions, no diagonals
+    #[inline]
+    pub fn all() -> [Self; 4] {
+        [
+            Direction::Up,
+            Direction::Right,
+            Direction::Down,
+            Direction::Left,
+        ]
+    }
+
+    /// Returns all other directions, other than the current one
+    #[inline]
+    pub fn others(&self) -> [Self; 3] {
+        match self {
+            Direction::Up => [Direction::Right, Direction::Down, Direction::Left],
+            Direction::Right => [Direction::Up, Direction::Down, Direction::Left],
+            Direction::Down => [Direction::Up, Direction::Right, Direction::Left],
+            Direction::Left => [Direction::Up, Direction::Right, Direction::Down],
+        }
+    }
+
+    /// Returns perpentical directions, showing possible 90 degree turns from the
+    /// current direction
+    #[inline]
+    pub fn perpendiculars(&self) -> [Self; 2] {
+        match self {
+            Direction::Up | Direction::Down => [Direction::Right, Direction::Left],
+            Direction::Right | Direction::Left => [Direction::Up, Direction::Down],
+        }
+    }
 }
 
 ///

@@ -1,16 +1,18 @@
 use std::ops::{Index, IndexMut};
 use std::str::FromStr;
 
+use super::point::Point;
+
 /// We often need to make a 2 dimensional grid of some sort.
 /// This is a helper struct to make that easier.
 /// Most of the time each row has the same length, so we
 /// store the grid here as a 1-dimension vector of data
 ///
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Grid<T> {
     pub width: usize,
     pub height: usize,
-    data: Vec<T>,
+    pub data: Vec<T>,
 }
 
 impl<T> Grid<T> {
@@ -28,11 +30,26 @@ impl<T> Grid<T> {
 impl<T: Copy> Grid<T> {
     /// Create a new grid with the indicated dimensions, and filled with the default value
     ///
-    pub fn new(&self, width: usize, height: usize, value: T) -> Self {
+    pub fn new(width: usize, height: usize, value: T) -> Self {
         Self {
             width,
             height,
             data: vec![value; width * height],
+        }
+    }
+
+    /// Creates a new grid from a slice of data
+    /// The slice must be at least width * height long
+    ///
+    pub fn from_slice(width: usize, height: usize, data: &[T]) -> Self {
+        assert!(
+            width * height >= data.len(),
+            "Data is too small for height/width"
+        );
+        Self {
+            width,
+            height,
+            data: data[..height * width].to_vec(),
         }
     }
 
@@ -97,6 +114,38 @@ where
     }
 }
 
+impl<T: std::fmt::Display + Copy> Grid<Option<T>> {
+    /// Create a new grid with the indicated dimensions, and filled with the default value
+    ///
+    pub fn display_grid_with_options(&self) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                match self.data[y * self.width + x] {
+                    Some(value) => print!("{:>5}", value),
+                    None => print!("  .  "),
+                }
+            }
+            println!();
+        }
+    }
+}
+
+impl Grid<bool> {
+    /// Displays a grid with bool values
+    ///
+    pub fn display_grid_with_bool(&self) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                match self.data[y * self.width + x] {
+                    true => print!("x"),
+                    false => print!("."),
+                }
+            }
+            println!();
+        }
+    }
+}
+
 ///
 /// Using a `usize` tuple to lookup a value in the grid
 ///
@@ -132,6 +181,17 @@ impl<T> Index<(i32, i32)> for Grid<T> {
 }
 
 ///
+/// Using a Point (x,y) to lookup a value in the grid
+///
+impl<T> Index<Point> for Grid<T> {
+    type Output = T;
+
+    fn index(&self, point: Point) -> &Self::Output {
+        &self.data[point.y as usize * self.width + point.x as usize]
+    }
+}
+
+///
 /// Using a `usize` tuple to set a value in the grid
 ///
 impl<T> IndexMut<(usize, usize)> for Grid<T> {
@@ -142,7 +202,7 @@ impl<T> IndexMut<(usize, usize)> for Grid<T> {
 }
 
 ///
-/// Using a `isize` tuple to lookup a value in the grid
+/// Using a `isize` tuple to set a value in the grid
 ///
 impl<T> IndexMut<(isize, isize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
@@ -151,11 +211,20 @@ impl<T> IndexMut<(isize, isize)> for Grid<T> {
 }
 
 ///
-/// Using a `i32` tuple to lookup a value in the grid
+/// Using a `i32` tuple to set a value in the grid
 ///
 impl<T> IndexMut<(i32, i32)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (i32, i32)) -> &mut Self::Output {
         &mut self.data[y as usize * self.width + x as usize]
+    }
+}
+
+///
+/// Using a Point (x,y) to set a value in the grid
+///
+impl<T> IndexMut<Point> for Grid<T> {
+    fn index_mut(&mut self, point: Point) -> &mut Self::Output {
+        &mut self.data[point.y as usize * self.width + point.x as usize]
     }
 }
 
