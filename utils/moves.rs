@@ -10,7 +10,7 @@ impl std::str::FromStr for Moves {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let moves: Vec<Direction> = s.chars().filter_map(|c| Direction::from_char(c)).collect();
+        let moves: Vec<Direction> = s.chars().filter_map(Direction::from_char).collect();
         if moves.len() != s.len() {
             eprintln!("Invalid move sequence: {:?}", s);
             return Err(());

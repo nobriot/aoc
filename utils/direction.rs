@@ -1,6 +1,3 @@
-use super::grid::Grid;
-use std::str::FromStr;
-
 /// Direction, used in particular for 2-d navigation puzzles
 ///
 /// Each direction is represented with <, >, ^, v
@@ -16,25 +13,25 @@ pub enum Direction {
 }
 
 impl Direction {
-    /// Turn the direction clockwise.
-    fn turn_clockwise(&mut self) {
-        match self {
-            Direction::Up => *self = Direction::Right,
-            Direction::Right => *self = Direction::Down,
-            Direction::Down => *self = Direction::Left,
-            Direction::Left => *self = Direction::Up,
-        }
-    }
+    // Turn the direction clockwise.
+    // fn turn_clockwise(&mut self) {
+    //     match self {
+    //         Direction::Up => *self = Direction::Right,
+    //         Direction::Right => *self = Direction::Down,
+    //         Direction::Down => *self = Direction::Left,
+    //         Direction::Left => *self = Direction::Up,
+    //     }
+    // }
 
-    /// Turn the direction counter-clockwise.
-    fn turn_counterclockwise(&mut self) {
-        match self {
-            Direction::Up => *self = Direction::Left,
-            Direction::Right => *self = Direction::Up,
-            Direction::Down => *self = Direction::Right,
-            Direction::Left => *self = Direction::Down,
-        }
-    }
+    // Turn the direction counter-clockwise.
+    // fn turn_counterclockwise(&mut self) {
+    //     match self {
+    //         Direction::Up => *self = Direction::Left,
+    //         Direction::Right => *self = Direction::Up,
+    //         Direction::Down => *self = Direction::Right,
+    //         Direction::Left => *self = Direction::Down,
+    //     }
+    // }
 
     /// Updates x and y coordinates if we take one steop in the current
     /// direction

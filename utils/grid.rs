@@ -237,7 +237,7 @@ impl FromStr for Grid<char> {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let height = s.lines().count();
         let width = s.lines().nth(0).ok_or(())?.len();
-        let data: Vec<char> = s.lines().map(|l| l.chars()).flatten().collect();
+        let data: Vec<char> = s.lines().flat_map(|l| l.chars()).collect();
 
         if data.len() != width * height {
             return Err(());
@@ -259,7 +259,7 @@ impl FromStr for Grid<u8> {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let height = s.lines().count();
         let width = s.lines().nth(0).ok_or(())?.len();
-        let data: Vec<u8> = s.lines().map(|l| l.bytes()).flatten().collect();
+        let data: Vec<u8> = s.lines().flat_map(|l| l.bytes()).collect();
         Ok(Self {
             width,
             height,

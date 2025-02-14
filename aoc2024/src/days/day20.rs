@@ -4,7 +4,6 @@ pub fn solve() -> (Option<usize>, Option<usize>) {
     let input = input::DAY_20_INPUT;
 
     let part_1_total = solve_part_1(input);
-
     let part_2_total = solve_part_2(input);
 
     (part_1_total, part_2_total)

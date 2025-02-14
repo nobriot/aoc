@@ -14,7 +14,7 @@ struct Reindeer {
     /// If the reindeer is walking on already visited paths, it should not turn around
     /// unless it suddenly finds some un-visited tiles
     pub no_more_turns: bool,
-    /// This is ised mostly to prevent reindeer from turning around witout moving. We allow turns
+    /// This is used mostly to prevent reindeer from turning around witout moving. We allow turns
     /// at the start, (set has_moved to true), but not after each turn (else it just spins on
     /// itself).
     pub has_moved: bool,
@@ -68,9 +68,7 @@ fn find_best_path(grid: &Map) -> Grid<Option<usize>> {
     // score than the arrow going right, even if arrow going right arrived after.
     // Though we should prevent such reindeer path to keep turning around afterwards
     // if it is stepping on already visited ground and has not been the "fastest path anywhere"
-    let mut loop_count = 0;
     while visited[goal].is_none() {
-        loop_count += 1;
         // Check if we should queue turns
         if !reindeer.no_more_turns && reindeer.has_moved {
             for other_direction in reindeer.p.direction.perpendiculars() {
