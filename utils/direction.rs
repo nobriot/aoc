@@ -33,7 +33,7 @@ impl Direction {
     //     }
     // }
 
-    /// Updates x and y coordinates if we take one steop in the current
+    /// Updates x and y coordinates if we take one step in the current
     /// direction
     /// Returns new (x, y) coordinates
     pub fn move_xy(&self, x: usize, y: usize) -> (usize, usize) {
@@ -45,7 +45,7 @@ impl Direction {
         }
     }
 
-    /// Updates a point with (x, y) if we take one steop in the current
+    /// Updates a point with (x, y) if we take one step in the current
     /// direction
     /// Returns new point with (x, y) coordinates
     pub fn move_point(&self, point: (usize, usize)) -> (usize, usize) {
