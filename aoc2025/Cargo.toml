@@ -1,0 +1,18 @@
+[package]
+name = "aoc2025"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.53", features = ["derive"] }
+itertools = "0.13.0"
+regex = "1.12.2"
+aoc_utils = { path = ".." }
+aoc_macros = { path = "../macros" }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "benchmarks"
+harness = false

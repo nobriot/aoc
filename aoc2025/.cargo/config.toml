@@ -1,0 +1,10 @@
+[alias]
+b = "build"
+c = "check"
+t = "test"
+r = "run"
+rr = "run --release"
+
+
+[build]
+rustflags = "-Awarnings"
