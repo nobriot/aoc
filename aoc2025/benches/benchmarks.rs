@@ -2,7 +2,7 @@ use aoc2025::days;
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn criterion_benchmark(c: &mut Criterion) {
-    // c.bench_function("day 1", |b| b.iter(|| days::day01::solve()));
+    c.bench_function("day 1", |b| b.iter(|| days::day01::solve()));
     // c.bench_function("day 2", |b| b.iter(|| days::day02::solve()));
     // c.bench_function("day 3", |b| b.iter(|| days::day03::solve()));
     // c.bench_function("day 4", |b| b.iter(|| days::day04::solve()));
@@ -14,11 +14,6 @@ fn criterion_benchmark(c: &mut Criterion) {
     // c.bench_function("day 10", |b| b.iter(|| days::day10::solve()));
     // c.bench_function("day 11", |b| b.iter(|| days::day11::solve()));
     // c.bench_function("day 12", |b| b.iter(|| days::day12::solve()));
-    // c.bench_function("day 13", |b| b.iter(|| days::day13::solve()));
-    // c.bench_function("day 14", |b| b.iter(|| days::day14::solve()));
-    // c.bench_function("day 15", |b| b.iter(|| days::day15::solve()));
-    // c.bench_function("day 16", |b| b.iter(|| days::day16::solve()));
-    // c.bench_function("day 19", |b| b.iter(|| days::day19::solve()));
 }
 
 criterion_group!(benches, criterion_benchmark);

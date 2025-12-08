@@ -22,15 +22,15 @@ use syn::{parse::Parse, parse::ParseStream, parse_macro_input, Token};
 /// if args.all || args.days.contains(&1) {
 ///     println!("Solving Day {}.", 1);
 ///     let results = days::day01::solve();
-///     println!("Part 1 result: {:?}", results.0);
-///     println!("Part 2 result: {:?}", results.1);
+///     if let Some(r) = results.0 { println!("Part 1 result: {:?}", r) };
+///     if let Some(r) = results.1 { println!("Part 2 result: {:?}", r) };
 /// }
 /// // Day 2
 /// if args.all || args.days.contains(&2) {
 ///     println!("Solving Day {}.", 2);
 ///     let results = days::day02::solve();
-///     println!("Part 1 result: {:?}", results.0);
-///     println!("Part 2 result: {:?}", results.1);
+///     if let Some(r) = results.0 { println!("Part 1 result: {:?}", r) };
+///     if let Some(r) = results.1 { println!("Part 2 result: {:?}", r) };
 /// }
 /// ```
 #[proc_macro]
@@ -111,8 +111,8 @@ impl ToTokens for DaysRangeAndArgs {
                 if #args.all || #args.days.contains(&#i) {
                 println!("Solving Day {}.", #i);
                 let results = days::#module_name::solve();
-                println!("Part 1 result: {:?}", results.0);
-                println!("Part 2 result: {:?}", results.1);
+                if let Some(r) = results.0 { println!("Part 1 result: {:?}", r) };
+                if let Some(r) = results.1 { println!("Part 2 result: {:?}", r) };
                 }
 
             });
