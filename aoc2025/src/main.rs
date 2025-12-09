@@ -15,5 +15,5 @@ fn main() {
     let args = Args::parse();
 
     // Solve the requested days in argument
-    solve_days!(1, 3, args);
+    solve_days!(1, 4, args);
 }

@@ -1,6 +1,8 @@
 use super::direction::Direction;
 
+use std::ops::Add;
 use std::ops::AddAssign;
+use std::ops::Sub;
 use std::ops::SubAssign;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -76,12 +78,32 @@ impl Point {
     }
 }
 
+impl Add for Point {
+    type Output = Point;
+    fn add(self, other: Self) -> Self {
+        Self {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
 impl AddAssign for Point {
     fn add_assign(&mut self, other: Self) {
         *self = Self {
             x: self.x + other.x,
             y: self.y + other.y,
         };
+    }
+}
+
+impl Sub for Point {
+    type Output = Point;
+    fn sub(self, other: Self) -> Self {
+        Self {
+            x: self.x - other.x,
+            y: self.y - other.y,
+        }
     }
 }
 

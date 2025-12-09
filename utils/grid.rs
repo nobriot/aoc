@@ -59,6 +59,28 @@ impl<T: Copy> Grid<T> {
         x >= 0 && (x as usize) < self.width && y >= 0 && (y as usize) < self.height
     }
 
+    pub fn neighbors(&self, point: (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
+        let point = Point::new(point.0 as i32, point.1 as i32);
+        let mut neighbors = Vec::with_capacity(8);
+        for &offset in &[
+            Point::new(-1, -1),
+            Point::new(-1, 0),
+            Point::new(-1, 1),
+            Point::new(0, -1),
+            Point::new(0, 1),
+            Point::new(1, -1),
+            Point::new(1, 0),
+            Point::new(1, 1),
+        ] {
+            let neighbor_point = point + offset;
+            if self.point_within_bounds((neighbor_point.x as isize, neighbor_point.y as isize)) {
+                neighbors.push((neighbor_point.x as usize, neighbor_point.y as usize));
+            }
+        }
+
+        neighbors.into_iter()
+    }
+
     /// Checks if a coordinate tuple is within bounds of the grid
     #[inline]
     pub fn point_within_bounds(&self, point: (isize, isize)) -> bool {
@@ -235,11 +257,12 @@ impl FromStr for Grid<char> {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let height = s.lines().count();
+        let height = s.lines().filter(|line| !line.trim().is_empty()).count();
         let width = s.lines().nth(0).ok_or(())?.len();
         let data: Vec<char> = s.lines().flat_map(|l| l.chars()).collect();
 
         if data.len() != width * height {
+            // eprintln!( "Error building grid: len {} vs width {} height {}", data.len(), width, height );
             return Err(());
         }
 
@@ -319,6 +342,10 @@ mod tests {
         assert!(!grid.xy_within_bounds((grid.width) as isize, 0));
         assert!(grid.xy_within_bounds(0, (grid.height - 1) as isize));
         assert!(!grid.xy_within_bounds(0, (grid.height) as isize));
+
+        // Check some neighbors
+        assert_eq!(3, grid.neighbors((0, 0)).count());
+        assert_eq!(8, grid.neighbors((1, 1)).count());
     }
 
     #[test]
