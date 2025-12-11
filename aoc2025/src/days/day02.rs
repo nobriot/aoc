@@ -27,7 +27,7 @@ fn solve_part_1(ranges: &Vec<(usize, usize)>) -> Option<usize> {
         for i in start..=stop {
             // Get the number of digits
             let digits = count_digits(i);
-            if digits % 2 != 0 {
+            if !digits.is_multiple_of(2) {
                 continue;
             }
             // Find the middle
@@ -57,18 +57,18 @@ fn solve_part_2(ranges: &Vec<(usize, usize)>) -> Option<usize> {
             let digits = count_digits(i);
 
             'digits: for d in 1..=(digits / 2) {
-                if digits % d != 0 {
+                if !digits.is_multiple_of(d) {
                     continue;
                 }
 
-                let divider = 10_usize.pow(d as u32);
+                let divider = 10_usize.pow(d);
                 let low_digits = i % divider;
                 let groups = digits / d;
 
                 let mut current_divider = divider;
-                for g in 0..(groups - 1) {
+                for _ in 0..(groups - 1) {
                     let digits_group = (i / current_divider) % divider;
-                    current_divider *= 10_usize.pow(d as u32);
+                    current_divider *= 10_usize.pow(d);
 
                     if digits_group != low_digits {
                         continue 'digits;

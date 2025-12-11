@@ -2,7 +2,7 @@ use crate::input;
 
 const MAX_ANGLE: isize = 100;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Default)]
 pub struct Dial {
     pub angle: isize,
     pub exact_zeroes: usize,
@@ -25,7 +25,7 @@ impl Dial {
         }
 
         let was_zero = self.angle == 0;
-        self.angle = self.angle + movement;
+        self.angle += movement;
 
         // Post-process the increment and count the clicks
         if self.angle >= MAX_ANGLE {
@@ -66,7 +66,7 @@ pub fn solve() -> (Option<usize>, Option<usize>) {
             break;
         }
 
-        let sign: isize = match line.chars().nth(0).expect("line is not empty") {
+        let sign: isize = match line.chars().next().expect("line is not empty") {
             'L' => -1,
             'R' => 1,
             _ => panic!("Unknown rotation: {line}"),
