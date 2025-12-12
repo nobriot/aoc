@@ -89,6 +89,12 @@ impl<T: Copy> Grid<T> {
             && point.1 >= 0
             && (point.1 as usize) < self.height
     }
+
+    /// Checks if a coordinate tuple is within bounds of the grid
+    #[inline]
+    pub fn usize_point_within_bounds(&self, point: (usize, usize)) -> bool {
+        point.0 < self.width && point.1 < self.height
+    }
 }
 
 impl<T: Copy + PartialEq> Grid<T> {
